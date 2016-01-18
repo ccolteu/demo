@@ -9,9 +9,18 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/remote_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remote Service Test"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"/>
+
+    <TextView
         android:id="@+id/get_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/remote_service"
         android:text="Get Data"
         android:layout_centerHorizontal="true"
         android:padding="10dp"/>

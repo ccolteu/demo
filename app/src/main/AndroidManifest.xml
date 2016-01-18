@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cc.dagger2" >
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cc.demo" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,6 +20,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- android:process ensures that the service runs in a different process,
+             called "remote_process", other than the app process which is by
+             default gets the package name "com.example.remotebound" -->
+        <service android:name="com.cc.demo.services.RemoteService"
+            android:process=":remote_process"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.cc.RemoteService" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

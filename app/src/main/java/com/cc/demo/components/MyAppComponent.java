@@ -3,6 +3,7 @@ package com.cc.demo.components;
 import com.cc.demo.modules.ApiModule;
 import com.cc.demo.modules.EventBusModule;
 import com.cc.demo.modules.MyAppModule;
+import com.cc.demo.modules.RemoteServiceApiModule;
 import com.cc.demo.ui.MainActivity;
 
 import javax.inject.Singleton;
@@ -15,6 +16,7 @@ import dagger.Component;
 @Component (modules={
         MyAppModule.class,
         ApiModule.class,
+        RemoteServiceApiModule.class,
         EventBusModule.class
 })
 public interface MyAppComponent {

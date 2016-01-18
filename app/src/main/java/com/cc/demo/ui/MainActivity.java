@@ -7,9 +7,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.cc.dagger2.R;
 import com.cc.demo.MyApp;
+import com.cc.demo.R;
 import com.cc.demo.apis.Apis;
+import com.cc.demo.apis.RemoteServiceApi;
 import com.cc.demo.model.Radio;
 import com.cc.demo.otto.Message;
 import com.cc.demo.utils.JobExecutor;
@@ -45,6 +46,7 @@ public class MainActivity extends Activity {
     // mApis will not actually get injected until the first call to get(), from
     // then on it will remain injected
     @Inject Lazy<Apis> mApis;
+    @Inject Lazy<RemoteServiceApi> mRemoteServiceApi;
 
 
     // ButterKnife binding
@@ -54,6 +56,10 @@ public class MainActivity extends Activity {
         //getDataSync();
         getData();
         //getDataRx();
+    }
+    @OnClick(R.id.remote_service)
+    public void remoteServiceTestClickHandler() {
+        testRemoteService();
     }
 
     @Override
@@ -74,7 +80,44 @@ public class MainActivity extends Activity {
     }
 
     /*
-    Otto
+    Remote service demo
+     */
+    private void testRemoteService() {
+        // lazy instantiation of the remote service and setting the listener
+        mRemoteServiceApi.get().setListener(mRemoteServiceListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mRemoteServiceApi.get() != null) {
+            mRemoteServiceApi.get().terminate();
+        }
+
+        super.onDestroy();
+    }
+
+    private RemoteServiceApi.RemoteServiceListener mRemoteServiceListener = new RemoteServiceApi.RemoteServiceListener() {
+        @Override
+        public void onConnected() {
+            Bundle bundle = new Bundle();
+            bundle.putString("incomingData", "show a Toast");
+            mRemoteServiceApi.get().send(bundle);
+        }
+
+        @Override
+        public void onFailedToConnect() {
+
+        }
+
+        @Override
+        public void onReceive(Bundle data) {
+            String dataString = data.getString("responseData");
+            Log.e("toto", "response from remote service: " + dataString);
+        }
+    };
+
+    /*
+     Otto
      */
     @Subscribe
     public void getMessage(Message msg) {

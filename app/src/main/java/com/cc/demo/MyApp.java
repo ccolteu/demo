@@ -8,6 +8,7 @@ import com.cc.demo.components.MyAppComponent;
 import com.cc.demo.modules.ApiModule;
 import com.cc.demo.modules.EventBusModule;
 import com.cc.demo.modules.MyAppModule;
+import com.cc.demo.modules.RemoteServiceApiModule;
 
 public class MyApp extends Application {
 
@@ -23,6 +24,7 @@ public class MyApp extends Application {
                 .myAppModule(new MyAppModule(this))
                 .apiModule(new ApiModule(BASE_URL))
                 .eventBusModule(new EventBusModule())
+                .remoteServiceApiModule(new RemoteServiceApiModule(this))
                 .build();
 
         // Initialize the singletons so their instances
