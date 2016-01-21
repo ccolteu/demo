@@ -10,9 +10,11 @@ import android.widget.Toast;
 import com.cc.demo.MyApp;
 import com.cc.demo.R;
 import com.cc.demo.apis.Apis;
+import com.cc.demo.apis.LocalServiceApi;
 import com.cc.demo.apis.RemoteServiceApi;
 import com.cc.demo.model.Radio;
 import com.cc.demo.otto.Message;
+import com.cc.demo.services.LocalService;
 import com.cc.demo.utils.JobExecutor;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -47,6 +49,7 @@ public class MainActivity extends Activity {
     // then on it will remain injected
     @Inject Lazy<Apis> mApis;
     @Inject Lazy<RemoteServiceApi> mRemoteServiceApi;
+    @Inject Lazy<LocalServiceApi> mLocalServiceApi;
 
 
     // ButterKnife binding
@@ -56,10 +59,6 @@ public class MainActivity extends Activity {
         //getDataSync();
         getData();
         //getDataRx();
-    }
-    @OnClick(R.id.remote_service)
-    public void remoteServiceTestClickHandler() {
-        testRemoteService();
     }
 
     @Override
@@ -82,10 +81,14 @@ public class MainActivity extends Activity {
     /*
     Remote service demo
      */
-    private void testRemoteService() {
-        // lazy instantiation of the remote service and setting the listener
-        mRemoteServiceApi.get().setListener(mRemoteServiceListener);
 
+    @OnClick(R.id.remote_service)
+    public void remoteServiceTestClickHandler() {
+        getDataViaRemoteService();
+    }
+
+    private void getDataViaRemoteService() {
+        mRemoteServiceApi.get().setListener(mRemoteServiceListener);
     }
 
     @Override
@@ -121,6 +124,41 @@ public class MainActivity extends Activity {
                 ArrayList<Radio> radios = data.getParcelableArrayList("data");
                 updateUI(radios);
             }
+        }
+    };
+
+    /*
+    Local service demo
+     */
+
+    @OnClick(R.id.local_service)
+    public void localServiceTestClickHandler() {
+        getDataViaLocalService();
+    }
+
+    private void getDataViaLocalService() {
+        mLocalServiceApi.get().setListener(mLocalServiceListener);
+    }
+
+    private LocalServiceApi.LocalServiceListener mLocalServiceListener = new LocalServiceApi.LocalServiceListener() {
+        @Override
+        public void onConnected() {
+            mLocalServiceApi.get().getService().getData(new LocalService.OnGetData() {
+                @Override
+                public void onGotData(List<Radio> radios) {
+                    updateUI(radios);
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
+        }
+
+        @Override
+        public void onFailedToConnect() {
+
         }
     };
 

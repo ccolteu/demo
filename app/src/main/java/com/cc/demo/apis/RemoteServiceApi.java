@@ -46,12 +46,10 @@ public class RemoteServiceApi {
     }
 
     public void terminate() {
-        if (mContext != null) {
-            if (serviceConnection != null) {
-                mContext.unbindService(serviceConnection);
-            }
-            isBound = false;
+        if (mContext != null && serviceConnection != null && isBound) {
+            mContext.unbindService(serviceConnection);
         }
+        isBound = false;
     }
 
     public void send(Bundle data) {

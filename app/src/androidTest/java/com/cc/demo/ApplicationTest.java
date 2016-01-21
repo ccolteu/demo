@@ -1,4 +1,4 @@
-package com.cc.dagger2;
+package com.cc.demo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -2,8 +2,10 @@ package com.cc.demo.components;
 
 import com.cc.demo.modules.ApiModule;
 import com.cc.demo.modules.EventBusModule;
+import com.cc.demo.modules.LocalServiceApiModule;
 import com.cc.demo.modules.MyAppModule;
 import com.cc.demo.modules.RemoteServiceApiModule;
+import com.cc.demo.services.LocalService;
 import com.cc.demo.services.RemoteService;
 import com.cc.demo.ui.MainActivity;
 
@@ -18,9 +20,11 @@ import dagger.Component;
         MyAppModule.class,
         ApiModule.class,
         RemoteServiceApiModule.class,
+        LocalServiceApiModule.class,
         EventBusModule.class
 })
 public interface MyAppComponent {
     void inject(MainActivity activity);
     void inject(RemoteService service);
+    void inject(LocalService service);
 }

@@ -32,6 +32,8 @@
             </intent-filter>
         </service>
 
+        <service android:name="com.cc.demo.services.LocalService" />
+
     </application>
 
 </manifest>
