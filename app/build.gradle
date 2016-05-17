@@ -22,6 +22,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -40,11 +41,15 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
+
+    configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:23.0.1'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
 
     // Dagger 2
     compile 'javax.inject:javax.inject:1'
@@ -71,4 +76,20 @@ dependencies {
 
     // Event bus
     compile 'com.squareup:otto:1.3.8'
+
+    // JUnit 4 framework
+    testCompile 'junit:junit:4.12'
+    // Mockito framework
+    testCompile 'org.mockito:mockito-core:1.10.19'
+
+    androidTestCompile 'com.android.support:support-annotations:23.0.1'
+    // JUnit 4
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    // Hamcrest
+    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+    // Espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    // UI Automator
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
