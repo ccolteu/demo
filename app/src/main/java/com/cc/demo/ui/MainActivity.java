@@ -100,32 +100,33 @@ public class MainActivity extends Activity {
         super.onDestroy();
     }
 
-    private RemoteServiceApi.RemoteServiceListener mRemoteServiceListener = new RemoteServiceApi.RemoteServiceListener() {
-        @Override
-        public void onConnected() {
-            Bundle bundle = new Bundle();
-            bundle.putString("command", "get_data");
-            mRemoteServiceApi.get().send(bundle);
-        }
+    private RemoteServiceApi.RemoteServiceListener mRemoteServiceListener =
+            new RemoteServiceApi.RemoteServiceListener() {
+                @Override
+                public void onConnected() {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("command", "get_data");
+                    mRemoteServiceApi.get().send(bundle);
+                }
 
-        @Override
-        public void onFailedToConnect() {
+                @Override
+                public void onFailedToConnect() {
 
-        }
+                }
 
-        @Override
-        public void onReceive(Bundle data) {
+                @Override
+                public void onReceive(Bundle data) {
 
-            // set the current class loader to be used by the un-marshalling process
-            // since the the parcelling is done in a separate process
-            data.setClassLoader(getClassLoader());
+                    // set the current class loader to be used by the un-marshalling process
+                    // since the the parcelling is done in a separate process
+                    data.setClassLoader(getClassLoader());
 
-            if (data.containsKey("data")) {
-                ArrayList<Radio> radios = data.getParcelableArrayList("data");
-                updateUI(radios);
-            }
-        }
-    };
+                    if (data.containsKey("data")) {
+                        ArrayList<Radio> radios = data.getParcelableArrayList("data");
+                        updateUI(radios);
+                    }
+                }
+            };
 
     /*
     Local service demo

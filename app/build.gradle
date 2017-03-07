@@ -22,6 +22,9 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+
+        // in order to use JUnit 4 test classes we need to specify
+        // AndroidJUnitRunner as the default test instrumentation runner
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -77,19 +80,21 @@ dependencies {
     // Event bus
     compile 'com.squareup:otto:1.3.8'
 
+    // FOR UNIT TESTS (app/src/test)
     // JUnit 4 framework
     testCompile 'junit:junit:4.12'
-    // Mockito framework
+    // Mockito framework for mocking Android dependencies
     testCompile 'org.mockito:mockito-core:1.10.19'
 
-    androidTestCompile 'com.android.support:support-annotations:23.0.1'
+    // FOR INSTRUMENTED UNIT TESTS (app/src/androidTest)
+    androidTestCompile 'com.android.support:support-annotations:25.2.0'
     // JUnit 4
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
-    androidTestCompile 'com.android.support.test:rules:0.4.1'
-    // Hamcrest
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    // Optional - Hamcrest library for more flexible assertions
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
-    // Espresso
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
-    // UI Automator
+    // Optional - UI testing with Espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    // Optional - UI testing with UI Automator
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
