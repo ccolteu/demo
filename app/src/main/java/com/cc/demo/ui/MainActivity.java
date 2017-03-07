@@ -7,7 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.cc.demo.MyApp;
+import com.cc.demo.DemoApplication;
 import com.cc.demo.R;
 import com.cc.demo.apis.Apis;
 import com.cc.demo.apis.LocalServiceApi;
@@ -42,7 +42,8 @@ import rx.subscriptions.CompositeSubscription;
 public class MainActivity extends Activity {
 
     // Dagger injection
-    @Inject MyApp mMyApp;
+    @Inject
+    DemoApplication mMyApp;
     @Inject Bus mBus;
     // lazy injection since mApis is only needed when the user clicks the button
     // mApis will not actually get injected until the first call to get(), from
@@ -57,8 +58,8 @@ public class MainActivity extends Activity {
     @OnClick(R.id.get_data)
     public void getDataClickHandler() {
         //getDataSync();
-        getData();
-        //getDataRx();
+        //getData();
+        getDataRx();
     }
 
     @Override
@@ -67,7 +68,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // inject Dagger components/modules
-        MyApp.getComponent().inject(this);
+        DemoApplication.getComponent().inject(this);
 
         // inject ButterKnife dependencies
         ButterKnife.bind(this);
@@ -175,8 +176,7 @@ public class MainActivity extends Activity {
     /*
     get data using Retrofit
      */
-
-    // sync API call - just to show it works, but DON'T DO IT !
+    // sync call, just to show it works, but DON'T DO IT
     private void getDataSync() {
         new Thread(new Runnable() {
             @Override

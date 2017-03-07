@@ -3,26 +3,26 @@ package com.cc.demo;
 import android.app.Application;
 import android.util.Log;
 
-import com.cc.demo.components.DaggerMyAppComponent;
-import com.cc.demo.components.MyAppComponent;
+import com.cc.demo.components.DaggerDemoApplicationComponent;
+import com.cc.demo.components.DemoApplicationComponent;
 import com.cc.demo.modules.ApiModule;
+import com.cc.demo.modules.DemoApplicationModule;
 import com.cc.demo.modules.EventBusModule;
 import com.cc.demo.modules.LocalServiceApiModule;
-import com.cc.demo.modules.MyAppModule;
 import com.cc.demo.modules.RemoteServiceApiModule;
 
-public class MyApp extends Application {
+public class DemoApplication extends Application {
 
     private static final String BASE_URL = "http://claudiucolteu.com";
 
-    private static MyAppComponent myAppComponent;
+    private static DemoApplicationComponent demoApplicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        myAppComponent = DaggerMyAppComponent.builder()
-                .myAppModule(new MyAppModule(this))
+        demoApplicationComponent = DaggerDemoApplicationComponent.builder()
+                .demoApplicationModule(new DemoApplicationModule(this))
                 .apiModule(new ApiModule(BASE_URL))
                 .eventBusModule(new EventBusModule())
                 .remoteServiceApiModule(new RemoteServiceApiModule(this))
@@ -34,8 +34,8 @@ public class MyApp extends Application {
         initSingletons();
     }
 
-    public static MyAppComponent getComponent() {
-        return myAppComponent;
+    public static DemoApplicationComponent getComponent() {
+        return demoApplicationComponent;
     }
 
     protected void initSingletons() {

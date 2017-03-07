@@ -3,7 +3,7 @@ package com.cc.demo.components;
 import com.cc.demo.modules.ApiModule;
 import com.cc.demo.modules.EventBusModule;
 import com.cc.demo.modules.LocalServiceApiModule;
-import com.cc.demo.modules.MyAppModule;
+import com.cc.demo.modules.DemoApplicationModule;
 import com.cc.demo.modules.RemoteServiceApiModule;
 import com.cc.demo.services.LocalService;
 import com.cc.demo.services.RemoteService;
@@ -17,13 +17,13 @@ import dagger.Component;
 // un-scoped components to use modules with scoped bindings
 @Singleton
 @Component (modules={
-        MyAppModule.class,
+        DemoApplicationModule.class,
         ApiModule.class,
         RemoteServiceApiModule.class,
         LocalServiceApiModule.class,
         EventBusModule.class
 })
-public interface MyAppComponent {
+public interface DemoApplicationComponent {
     void inject(MainActivity activity);
     void inject(RemoteService service);
     void inject(LocalService service);

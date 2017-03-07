@@ -10,7 +10,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.cc.demo.MyApp;
+import com.cc.demo.DemoApplication;
 import com.cc.demo.apis.Apis;
 import com.cc.demo.model.Radio;
 
@@ -36,7 +36,7 @@ public class RemoteService extends Service {
         super.onCreate();
 
         // inject Dagger components/modules
-        MyApp.getComponent().inject(this);
+        DemoApplication.getComponent().inject(this);
     }
 
     @Override
@@ -89,4 +89,3 @@ public class RemoteService extends Service {
     }
 
 }
-

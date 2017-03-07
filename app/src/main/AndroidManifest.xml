@@ -10,20 +10,21 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:name="com.cc.demo.MyApp" >
+        android:name="com.cc.demo.DemoApplication" >
+
         <activity
             android:name="com.cc.demo.ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- remote service -->
         <!-- android:process ensures that the service runs in a different process,
-             called "remote_process", other than the app process which is by
-             default gets the package name "com.example.remotebound" -->
+             named "remote_process", different from the app process which by default
+             gets the name of the package, "com.cc.demo" -->
         <service android:name="com.cc.demo.services.RemoteService"
             android:process=":remote_process"
             android:exported="true" >
@@ -32,6 +33,7 @@
             </intent-filter>
         </service>
 
+        <!-- local service -->
         <service android:name="com.cc.demo.services.LocalService" />
 
     </application>

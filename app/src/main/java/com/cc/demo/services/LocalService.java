@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.cc.demo.MyApp;
+import com.cc.demo.DemoApplication;
 import com.cc.demo.apis.Apis;
 import com.cc.demo.model.Radio;
 
@@ -40,7 +40,7 @@ public class LocalService extends Service {
         super.onCreate();
 
         // inject Dagger components/modules
-        MyApp.getComponent().inject(this);
+        DemoApplication.getComponent().inject(this);
     }
 
     public interface OnGetData {
