@@ -89,12 +89,20 @@ dependencies {
     // FOR INSTRUMENTED UNIT TESTS (app/src/androidTest)
     androidTestCompile 'com.android.support:support-annotations:25.2.0'
     // JUnit 4
-    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile('com.android.support.test:runner:0.5') {
+        // Necessary if your app targets Marshmallow (since the test runner
+        // hasn't moved to Marshmallow yet)
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     androidTestCompile 'com.android.support.test:rules:0.5'
     // Optional - Hamcrest library for more flexible assertions
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
     // Optional - UI testing with Espresso
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+        // Necessary if your app targets Marshmallow (since Espresso
+        // hasn't moved to Marshmallow yet)
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     // Optional - UI testing with UI Automator
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
