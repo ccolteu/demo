@@ -14,7 +14,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Lazy;
-import retrofit.RetrofitError;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LocalService extends Service {
 
@@ -49,18 +51,19 @@ public class LocalService extends Service {
     }
 
     public void getData(final OnGetData listener) {
-        mApis.get().getRadios(new retrofit.Callback<List<Radio>>() {
+        Call<List<Radio>> call = mApis.get().getRadios();
+        call.enqueue(new Callback<List<Radio>>() {
             @Override
-            public void success(List<Radio> radios, retrofit.client.Response response) {
+            public void onResponse(Call<List<Radio>> call, Response<List<Radio>> response) {
                 if (listener != null) {
-                    listener.onGotData(radios);
+                    listener.onGotData(response.body());
                 }
             }
 
             @Override
-            public void failure(RetrofitError error) {
+            public void onFailure(Call<List<Radio>> call, Throwable t) {
                 if (listener != null) {
-                    listener.onError(error.getMessage());
+                    listener.onError(t.getMessage());
                 }
             }
         });

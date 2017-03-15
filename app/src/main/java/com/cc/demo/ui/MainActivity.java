@@ -15,11 +15,13 @@ import com.cc.demo.apis.RemoteServiceApi;
 import com.cc.demo.model.Radio;
 import com.cc.demo.otto.Message;
 import com.cc.demo.services.LocalService;
+import com.cc.demo.utils.ApiHeaders;
 import com.cc.demo.utils.JobExecutor;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -29,8 +31,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.Lazy;
-import retrofit.Callback;
-import retrofit.RetrofitError;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -51,6 +54,7 @@ public class MainActivity extends Activity {
     @Inject Lazy<Apis> mApis;
     @Inject Lazy<RemoteServiceApi> mRemoteServiceApi;
     @Inject Lazy<LocalServiceApi> mLocalServiceApi;
+    @Inject Lazy<ApiHeaders> mApiHeaders;
 
 
     // ButterKnife binding
@@ -176,32 +180,21 @@ public class MainActivity extends Activity {
     /*
     get data using Retrofit
      */
-    // sync call, just to show it works, but DON'T DO IT
-    private void getDataSync() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final List<Radio> radios = mApis.get().getRadiosSync();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateUI(radios);
-                    }
-                });
-            }
-        }).start();
-    }
-
     private void getData() {
-        mApis.get().getRadios(new Callback<List<Radio>>() {
+
+        // inject run-time headers - can be OAuth token, session cookie, etc
+        mApiHeaders.get().addHeader("time", Long.toString(new Date().getTime()));
+
+        Call<List<Radio>> call = mApis.get().getRadios();
+        call.enqueue(new Callback<List<Radio>>() {
             @Override
-            public void success(List<Radio> radios, retrofit.client.Response response) {
-                updateUI(radios);
+            public void onResponse(Call<List<Radio>> call, Response<List<Radio>> response) {
+                updateUI(response.body());
+
             }
 
             @Override
-            public void failure(RetrofitError error) {
-
+            public void onFailure(Call<List<Radio>> call, Throwable t) {
             }
         });
     }
@@ -225,6 +218,10 @@ public class MainActivity extends Activity {
         Executor jobExecutor = JobExecutor.getInstance();
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
         mListView.setAdapter(adapter);
+
+        // inject run-time headers - can be OAuth token, session cookie, etc
+        mApiHeaders.get().addHeader("time", Long.toString(new Date().getTime()));
+
         mCompositeSubscription.add(mApis.get().getRadiosRx()
                 //.subscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.from(jobExecutor))

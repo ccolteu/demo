@@ -10,9 +10,11 @@ import com.cc.demo.modules.DemoApplicationModule;
 import com.cc.demo.modules.EventBusModule;
 import com.cc.demo.modules.LocalServiceApiModule;
 import com.cc.demo.modules.RemoteServiceApiModule;
+import com.facebook.stetho.Stetho;
 
 public class DemoApplication extends Application {
 
+    // could be read from Shared Prefs
     private static final String BASE_URL = "http://claudiucolteu.com";
 
     private static DemoApplicationComponent demoApplicationComponent;
@@ -20,6 +22,8 @@ public class DemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Stetho.initializeWithDefaults(this);
 
         demoApplicationComponent = DaggerDemoApplicationComponent.builder()
                 .demoApplicationModule(new DemoApplicationModule(this))

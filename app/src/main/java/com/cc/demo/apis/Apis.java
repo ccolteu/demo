@@ -4,8 +4,8 @@ import com.cc.demo.model.Radio;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.http.GET;
+import retrofit2.Call;
+import retrofit2.http.GET;
 import rx.Observable;
 
 public interface Apis {
@@ -14,10 +14,7 @@ public interface Apis {
      traditional APIs
       */
     @GET("/radio/radios.json")
-    List<Radio> getRadiosSync();
-
-    @GET("/radio/radios.json")
-    void getRadios(Callback<List<Radio>> callback);
+    Call<List<Radio>> getRadios();
 
     /*
      RxJava APIs

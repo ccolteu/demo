@@ -20,7 +20,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Lazy;
-import retrofit.RetrofitError;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RemoteService extends Service {
 
@@ -60,10 +62,11 @@ public class RemoteService extends Service {
     }
 
     private void getData() {
-        mApis.get().getRadios(new retrofit.Callback<List<Radio>>() {
+        Call<List<Radio>> call = mApis.get().getRadios();
+        call.enqueue(new Callback<List<Radio>>() {
             @Override
-            public void success(List<Radio> radios, retrofit.client.Response response) {
-                if (getDataMessenger != null && radios != null && radios.size() > 0) {
+            public void onResponse(Call<List<Radio>> call, Response<List<Radio>> response) {
+                if (getDataMessenger != null && response.body() != null && response.body().size() > 0) {
 
                     Log.e("toto", "respond to client");
 
@@ -71,7 +74,7 @@ public class RemoteService extends Service {
                     try {
                         Message responseMessage = Message.obtain();
                         Bundle responseBundle = new Bundle();
-                        responseBundle.putParcelableArrayList("data", new ArrayList<>(radios));
+                        responseBundle.putParcelableArrayList("data", new ArrayList<>(response.body()));
                         responseMessage.setData(responseBundle);
                         getDataMessenger.send(responseMessage);
                     } catch (RemoteException e) {
@@ -82,8 +85,7 @@ public class RemoteService extends Service {
             }
 
             @Override
-            public void failure(RetrofitError error) {
-
+            public void onFailure(Call<List<Radio>> call, Throwable t) {
             }
         });
     }
