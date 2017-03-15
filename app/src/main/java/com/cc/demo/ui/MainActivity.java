@@ -164,7 +164,6 @@ public class MainActivity extends Activity {
 
         @Override
         public void onFailedToConnect() {
-
         }
     };
 
@@ -182,7 +181,9 @@ public class MainActivity extends Activity {
      */
     private void getData() {
 
-        // inject run-time headers - can be OAuth token, session cookie, etc
+        // add run-time headers - anywhere, not necessarily here
+        // can be OAuth token, session cookie, etc
+        // they will be automatically injected into every API call
         mApiHeaders.get().addHeader("time", Long.toString(new Date().getTime()));
 
         Call<List<Radio>> call = mApis.get().getRadios();
@@ -190,7 +191,6 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(Call<List<Radio>> call, Response<List<Radio>> response) {
                 updateUI(response.body());
-
             }
 
             @Override
@@ -219,7 +219,9 @@ public class MainActivity extends Activity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
         mListView.setAdapter(adapter);
 
-        // inject run-time headers - can be OAuth token, session cookie, etc
+        // add run-time headers - anywhere, not necessarily here
+        // can be OAuth token, session cookie, etc
+        // they will be automatically injected into every API call
         mApiHeaders.get().addHeader("time", Long.toString(new Date().getTime()));
 
         mCompositeSubscription.add(mApis.get().getRadiosRx()

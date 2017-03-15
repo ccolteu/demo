@@ -66,10 +66,16 @@ public class ApiModule {
         });
         client.addNetworkInterceptor(new StethoInterceptor());
 
+        // By default, Retrofit 2 can only deserialize HTTP bodies into OkHttp’s
+        // ResponseBody type and it can only accept its RequestBodytype for @Body
+        // So in order to enable Java serialization to convert Java Objects into
+        // JSON and back, a GSON converter must be set.
+        // Retrofit 2 interfaces does not support Observable out of the box anymore.
+        // So an adapter is needed to convert Call to Observable for RxJava.
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) // needed for RxJava
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client.build())
                 .build();
         return retrofit.create(Apis.class);
