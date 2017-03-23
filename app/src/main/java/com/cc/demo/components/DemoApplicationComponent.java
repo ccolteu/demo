@@ -16,7 +16,7 @@ import dagger.Component;
 // Had to add scope (@Singleton) since Dagger 2 does not allow
 // un-scoped components to use modules with scoped bindings
 @Singleton
-@Component (modules={
+@Component (modules = {
         DemoApplicationModule.class,
         ApiModule.class,
         RemoteServiceApiModule.class,
