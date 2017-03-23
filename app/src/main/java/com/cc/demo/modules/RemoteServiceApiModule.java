@@ -12,15 +12,15 @@ import dagger.Provides;
 @Module
 public class RemoteServiceApiModule {
 
-    private final Context context;
+    private final Context mContext;
 
     public RemoteServiceApiModule(Context ctx) {
-        this.context = ctx;
+        mContext = ctx;
     }
 
     @Provides
     @Singleton
     RemoteServiceApi providesRemoteServiceApi() {
-        return RemoteServiceApi.getInstance(context);
+        return RemoteServiceApi.getInstance(mContext);
     }
 }

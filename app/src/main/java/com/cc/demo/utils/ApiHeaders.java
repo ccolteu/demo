@@ -4,25 +4,25 @@ import java.util.HashMap;
 
 public class ApiHeaders {
 
-    private HashMap<String, String> headers = new HashMap<>();
+    private HashMap<String, String> mHeaders = new HashMap<>();
 
     public void setHeaders(HashMap<String, String> data) {
-        headers = (HashMap<String, String>) data.clone();
+        mHeaders = (HashMap<String, String>) data.clone();
     }
 
     public void addHeader(String key, String value) {
-        headers.put(key, value);
+        mHeaders.put(key, value);
     }
 
     public void removeHeader(String key) {
-        headers.remove(key);
+        mHeaders.remove(key);
     }
 
     public void clearHeaders() {
-        headers.clear();
+        mHeaders.clear();
     }
 
     public HashMap<String, String> getHeaders() {
-        return headers;
+        return mHeaders;
     }
 }

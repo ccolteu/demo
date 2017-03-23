@@ -29,9 +29,8 @@ public class RemoteService extends Service {
     @Inject
     Lazy<Apis> mApis;
 
-    final Messenger myMessenger = new Messenger(new IncomingHandler());
-
-    Messenger getDataMessenger = null;
+    final Messenger mMessenger = new Messenger(new IncomingHandler());
+    Messenger mGetDataMessenger = null;
 
     @Override
     public void onCreate() {
@@ -43,7 +42,7 @@ public class RemoteService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return myMessenger.getBinder();
+        return mMessenger.getBinder();
     }
 
     class IncomingHandler extends Handler {
@@ -54,7 +53,7 @@ public class RemoteService extends Service {
             Bundle data = msg.getData();
             if (data.containsKey("command")) {
                 if (data.getString("command").equalsIgnoreCase("get_data")) {
-                    getDataMessenger = msg.replyTo;
+                    mGetDataMessenger = msg.replyTo;
                     getData();
                 }
             }
@@ -66,7 +65,7 @@ public class RemoteService extends Service {
         call.enqueue(new Callback<List<Radio>>() {
             @Override
             public void onResponse(Call<List<Radio>> call, Response<List<Radio>> response) {
-                if (getDataMessenger != null && response.body() != null && response.body().size() > 0) {
+                if (mGetDataMessenger != null && response.body() != null && response.body().size() > 0) {
 
                     Log.e("toto", "respond to client");
 
@@ -76,7 +75,7 @@ public class RemoteService extends Service {
                         Bundle responseBundle = new Bundle();
                         responseBundle.putParcelableArrayList("data", new ArrayList<>(response.body()));
                         responseMessage.setData(responseBundle);
-                        getDataMessenger.send(responseMessage);
+                        mGetDataMessenger.send(responseMessage);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

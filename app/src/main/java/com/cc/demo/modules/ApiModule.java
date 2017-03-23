@@ -28,10 +28,10 @@ import java.util.concurrent.TimeUnit;
 @Module
 public class ApiModule {
 
-    private final String baseUrl;
+    private final String mBaseUrl;
 
     public ApiModule(String baseUrl) {
-        this.baseUrl = baseUrl;
+        mBaseUrl = baseUrl;
     }
 
     @Provides
@@ -73,7 +73,7 @@ public class ApiModule {
         // Retrofit 2 interfaces does not support Observable out of the box anymore.
         // So an adapter is needed to convert Call to Observable for RxJava.
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(mBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client.build())

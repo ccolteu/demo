@@ -5,23 +5,23 @@ import android.os.Parcelable;
 //@Parcel
 public class Radio implements android.os.Parcelable {
 
-    private String title;
-    private String logo;
+    private String mTitle;
+    private String mLogo;
 
     public String getTitle() {
-        return title;
+        return mTitle;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        mTitle = title;
     }
 
     public String getLogo() {
-        return logo;
+        return mLogo;
     }
 
     public void setLogo(String logo) {
-        this.logo = logo;
+        mLogo = logo;
     }
 
     /*
@@ -49,12 +49,12 @@ public class Radio implements android.os.Parcelable {
     };
 
     public void writeToParcel(android.os.Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(logo);
+        dest.writeString(mTitle);
+        dest.writeString(mLogo);
     }
 
     private void readFromParcel(android.os.Parcel in) {
-        title = in.readString();
-        logo = in.readString();
+        mTitle = in.readString();
+        mLogo = in.readString();
     }
 }

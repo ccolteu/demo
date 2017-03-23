@@ -19,7 +19,7 @@ public class RemoteServiceApi {
     private static Context mContext;
     private static Messenger messenger = null;
     private static boolean isBound;
-    private ResponseHandler responseHandler = new ResponseHandler();
+    private ResponseHandler mResponseHandler = new ResponseHandler();
     private static RemoteServiceListener mRemoteServiceListener;
 
     public interface RemoteServiceListener {
@@ -114,7 +114,7 @@ public class RemoteServiceApi {
         Message msg = Message.obtain();
 
         // set the response handler
-        msg.replyTo = new Messenger(responseHandler);
+        msg.replyTo = new Messenger(mResponseHandler);
 
         // set data
         if (data != null) {

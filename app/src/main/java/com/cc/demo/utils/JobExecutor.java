@@ -25,20 +25,20 @@ public class JobExecutor implements Executor {
     // Sets the Time Unit to seconds
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
 
-    private final BlockingQueue<Runnable> workQueue;
+    private final BlockingQueue<Runnable> mWorkQueue;
 
-    private final ThreadPoolExecutor threadPoolExecutor;
+    private final ThreadPoolExecutor mThreadPoolExecutor;
 
     private JobExecutor() {
-        this.workQueue = new LinkedBlockingQueue<>();
-        this.threadPoolExecutor = new ThreadPoolExecutor(INITIAL_POOL_SIZE, MAX_POOL_SIZE,
-                KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, workQueue);
+        this.mWorkQueue = new LinkedBlockingQueue<>();
+        this.mThreadPoolExecutor = new ThreadPoolExecutor(INITIAL_POOL_SIZE, MAX_POOL_SIZE,
+                KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, mWorkQueue);
     }
 
     @Override public void execute(Runnable runnable) {
         if (runnable == null) {
             throw new IllegalArgumentException("Runnable to execute cannot be null");
         }
-        threadPoolExecutor.execute(runnable);
+        mThreadPoolExecutor.execute(runnable);
     }
 }

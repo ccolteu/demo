@@ -12,15 +12,15 @@ import dagger.Provides;
 @Module
 public class LocalServiceApiModule {
 
-    private final Context context;
+    private final Context mContext;
 
     public LocalServiceApiModule(Context ctx) {
-        this.context = ctx;
+        mContext = ctx;
     }
 
     @Provides
     @Singleton
     LocalServiceApi providesLocalServiceApi() {
-        return LocalServiceApi.getInstance(context);
+        return LocalServiceApi.getInstance(mContext);
     }
 }
