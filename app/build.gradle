@@ -113,3 +113,17 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
 }
+
+// to run: ./gradlew check
+apply plugin: 'checkstyle'
+check.dependsOn 'checkstyle'
+task checkstyle(type: Checkstyle) {
+    configFile file("../checkstyle/checkstyle.xml")
+    configProperties.checkstyleSuppressionsPath = file("../checkstyle/suppressions.xml").absolutePath
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    classpath = files()
+}
