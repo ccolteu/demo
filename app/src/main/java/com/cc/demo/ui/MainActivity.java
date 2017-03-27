@@ -215,6 +215,9 @@ public class MainActivity extends Activity {
     get data using Retrofit and RxJava
      */
     private void getDataRx() {
+
+        Log.e("toto", getReducedStackTrace().substring(0, 256));
+
         Executor jobExecutor = JobExecutor.getInstance();
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<String>());
         mListView.setAdapter(adapter);
@@ -297,4 +300,47 @@ public class MainActivity extends Activity {
         return subscription;
     }
 
+    /*
+    Utils
+     */
+    private String getStackTrace() {
+        String stackTraceString = "";
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            StackTraceElement[] stack = e.getStackTrace();
+            if (stack != null) {
+                for (int i = 0; i < stack.length; i++) {
+                    stackTraceString += stack[i].toString();
+                    stackTraceString += "\n";
+                }
+            }
+        }
+        return stackTraceString;
+    }
+
+    private String getReducedStackTrace() {
+        String stackTraceString = "";
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            StackTraceElement[] stack = e.getStackTrace();
+            if (stack != null) {
+                // starting index is 1 because the first stack
+                // line is this function call, irrelevant data
+                for (int i = 1; i < stack.length; i++) {
+                    String stackLine = stack[i].toString();
+                    String logLine = "";
+                    int openBracketIndex = stackLine.indexOf("(");
+                    int closeBracketIndex = stackLine.indexOf(")");
+                    logLine += stackLine.substring(stackLine.substring(0, openBracketIndex).lastIndexOf(".") + 1, openBracketIndex);
+                    logLine += ":";
+                    logLine += stackLine.substring(openBracketIndex + 1, closeBracketIndex);
+                    stackTraceString += logLine;
+                    stackTraceString += "\n";
+                }
+            }
+        }
+        return stackTraceString;
+    }
 }
