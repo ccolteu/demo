@@ -11,6 +11,7 @@ import com.cc.demo.modules.EventBusModule;
 import com.cc.demo.modules.LocalServiceApiModule;
 import com.cc.demo.modules.RemoteServiceApiModule;
 import com.facebook.stetho.Stetho;
+import com.squareup.leakcanary.LeakCanary;
 
 public class DemoApplication extends Application {
 
@@ -22,6 +23,13 @@ public class DemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
         Stetho.initializeWithDefaults(this);
 

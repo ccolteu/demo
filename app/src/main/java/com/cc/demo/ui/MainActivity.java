@@ -62,8 +62,8 @@ public class MainActivity extends Activity {
     @OnClick(R.id.get_data)
     public void getDataClickHandler() {
         //getDataSync();
-        //getData();
-        getDataRx();
+        getData();
+        //getDataRx();
     }
 
     @Override

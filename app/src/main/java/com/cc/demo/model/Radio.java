@@ -1,11 +1,19 @@
 package com.cc.demo.model;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 
-//@Parcel
-public class Radio implements android.os.Parcelable {
+import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
+public class Radio implements Parcelable, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @SerializedName("title")
     private String mTitle;
+    @SerializedName("logo")
     private String mLogo;
 
     public String getTitle() {
@@ -13,7 +21,7 @@ public class Radio implements android.os.Parcelable {
     }
 
     public void setTitle(String title) {
-        mTitle = title;
+        this.mTitle = title;
     }
 
     public String getLogo() {
@@ -21,40 +29,37 @@ public class Radio implements android.os.Parcelable {
     }
 
     public void setLogo(String logo) {
-        mLogo = logo;
+        this.mLogo = logo;
     }
 
-    /*
-    Parcelable implementation
-     */
+    @Override
     public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mTitle);
+        dest.writeString(this.mLogo);
     }
 
     public Radio() {
     }
 
-    public Radio(android.os.Parcel in) {
-        readFromParcel(in);
+    protected Radio(Parcel in) {
+        this.mTitle = in.readString();
+        this.mLogo = in.readString();
     }
 
-    public static final Parcelable.Creator<Radio> CREATOR = new Parcelable.Creator<Radio>() {
-        public Radio createFromParcel(android.os.Parcel in) {
-            return new Radio(in);
+    public static final Creator<Radio> CREATOR = new Creator<Radio>() {
+        @Override
+        public Radio createFromParcel(Parcel source) {
+            return new Radio(source);
         }
 
+        @Override
         public Radio[] newArray(int size) {
             return new Radio[size];
         }
     };
-
-    public void writeToParcel(android.os.Parcel dest, int flags) {
-        dest.writeString(mTitle);
-        dest.writeString(mLogo);
-    }
-
-    private void readFromParcel(android.os.Parcel in) {
-        mTitle = in.readString();
-        mLogo = in.readString();
-    }
 }
