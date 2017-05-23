@@ -24,6 +24,11 @@ Add CMakeLists.txt to app folder, specifying the add.c source file.
 
 Update app/build.gradle to specify cmake path, flags, arguments
 
+Build -> Clean Project
+Build -> Make Project
+This is needed to generate
+app/.externalNativeBuild and its sub folders
+
 Now build normally:
 ./gradlew assembleDebug
 
