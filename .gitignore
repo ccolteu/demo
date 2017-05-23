@@ -8,3 +8,4 @@
 .idea
 demo.iml
 /app/app.iml
+/app/.externalNativeBuild/

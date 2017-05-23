@@ -12,6 +12,7 @@ import com.cc.demo.R;
 import com.cc.demo.apis.Apis;
 import com.cc.demo.apis.LocalServiceApi;
 import com.cc.demo.apis.RemoteServiceApi;
+import com.cc.demo.jni.NativeWrapper;
 import com.cc.demo.model.Radio;
 import com.cc.demo.otto.Message;
 import com.cc.demo.services.LocalService;
@@ -43,6 +44,11 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends Activity {
+
+    // load native library
+    static {
+        System.loadLibrary("add");
+    }
 
     // Dagger injection
     @Inject
@@ -81,6 +87,15 @@ public class MainActivity extends Activity {
 
         // register Otto event bus
         mBus.register(this);
+
+        performNativeCall();
+    }
+
+    private void performNativeCall() {
+        int a = 4;
+        int b = 5;
+        int c = NativeWrapper.add(4, 5);
+        Log.e("toto", "Native add: " + a + " + " + b + " = " + c);
     }
 
     /*
