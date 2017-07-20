@@ -11,13 +11,13 @@ cmake_minimum_required(VERSION 3.4.1)
 # automatically packages shared libraries with your APK.
 
 add_library( # Specifies the name of the library.
-             add
+             native-lib
 
              # Sets the library as a shared library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             jni/add.c )
+             jni/native-interface.c )
 
 # Specifies a path to native header files.
 include_directories(src/main/java/com/cc/demo/jni/)

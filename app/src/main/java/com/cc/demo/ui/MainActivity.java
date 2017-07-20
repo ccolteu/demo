@@ -13,6 +13,7 @@ import com.cc.demo.apis.Apis;
 import com.cc.demo.apis.LocalServiceApi;
 import com.cc.demo.apis.RemoteServiceApi;
 import com.cc.demo.jni.NativeWrapper;
+import com.cc.demo.jni.model.Employee;
 import com.cc.demo.model.Radio;
 import com.cc.demo.otto.Message;
 import com.cc.demo.services.LocalService;
@@ -47,7 +48,20 @@ public class MainActivity extends Activity {
 
     // load native library
     static {
-        System.loadLibrary("add");
+        System.loadLibrary("native-lib");
+    }
+
+    private void performNativeCall() {
+        int a = 4;
+        int b = 5;
+        int c = NativeWrapper.add(4, 5);
+        Log.e("toto", "Native add: " + a + " + " + b + " = " + c);
+
+        Employee employee = new Employee();
+        employee.setName("John");
+        employee.setSalary(120);
+        String employeeData = NativeWrapper.getEmployeeData(employee);
+        Log.e("toto", "Native getEmployeeData: " + employeeData);
     }
 
     // Dagger injection
@@ -89,13 +103,6 @@ public class MainActivity extends Activity {
         mBus.register(this);
 
         performNativeCall();
-    }
-
-    private void performNativeCall() {
-        int a = 4;
-        int b = 5;
-        int c = NativeWrapper.add(4, 5);
-        Log.e("toto", "Native add: " + a + " + " + b + " = " + c);
     }
 
     /*
